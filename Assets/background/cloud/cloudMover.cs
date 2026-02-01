@@ -17,7 +17,6 @@ public class cloudMover : MonoBehaviour
         }
 
         end = new Vector3(-9, chunks[0].position.y, chunks[0].position.z);
-        Debug.Log(count);
     }
 
     private void Update()

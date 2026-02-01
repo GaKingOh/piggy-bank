@@ -6,7 +6,7 @@ public class coinSponerController : MonoBehaviour
     public GameObject parent;
     float timeLimit = 5;
     float time = 0;
-    Vector3 spawn = new Vector3(10f, 3f, 0f);
+    Vector3 spawn = new Vector3(10f, 0f, 0f);
     void Start()
     {
         time = Time.time;
@@ -18,8 +18,9 @@ public class coinSponerController : MonoBehaviour
 
         if (Time.time - time > timeLimit)
         {
-            Instantiate(obstacle_prefab[0], spawn, Quaternion.identity, parent.transform);
-            Debug.Log(Time.time - time);
+            int idx = Random.Range(0, obstacle_prefab.Length);
+
+            Instantiate(obstacle_prefab[idx], spawn, Quaternion.identity, parent.transform);
             time = Time.time;
             timeLimit = Random.Range(2, 6);
         }

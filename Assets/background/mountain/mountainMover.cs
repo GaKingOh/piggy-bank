@@ -19,7 +19,6 @@ public class mountainMover : MonoBehaviour
         }
 
         end = new Vector3(-10, chunks[0].position.y, chunks[0].position.z);
-        Debug.Log(count);
     }
 
     private void Update()

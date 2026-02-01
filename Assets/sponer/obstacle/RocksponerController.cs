@@ -20,7 +20,8 @@ public class RocksponerController : MonoBehaviour
 
         if(Time.time-time>timeLimit)
         {
-            Instantiate(obstacle_prefab[0],spawn,Quaternion.identity,parent.transform);
+            int idx = Random.Range(0, obstacle_prefab.Length);
+            Instantiate(obstacle_prefab[idx],spawn,Quaternion.identity,parent.transform);
             Debug.Log(Time.time - time);
             time = Time.time;
             timeLimit = Random.Range(2, 6);

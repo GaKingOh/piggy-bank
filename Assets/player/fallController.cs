@@ -5,7 +5,6 @@ public class fallController : MonoBehaviour
 {
     [SerializeField] float FallSpeed = 0f;
     public Animator animator;
-    bool isFastFalling;
     Rigidbody2D rb;
     void Start()
     {
@@ -18,7 +17,6 @@ public class fallController : MonoBehaviour
         if (!gameObject.GetComponent<runController>().isground && Keyboard.current.vKey.wasPressedThisFrame)
         {
             Debug.Log("¾ÈµÊ");
-            isFastFalling = true;
             animator.SetBool("isjump", false);
             animator.SetBool("isfall", true);
             Debug.Log(animator.GetBool("isfall"));
