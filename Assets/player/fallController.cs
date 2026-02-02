@@ -16,7 +16,6 @@ public class fallController : MonoBehaviour
     {
         if (!gameObject.GetComponent<runController>().isground && Keyboard.current.vKey.wasPressedThisFrame)
         {
-            Debug.Log("¾ÈµÊ");
             animator.SetBool("isjump", false);
             animator.SetBool("isfall", true);
             Debug.Log(animator.GetBool("isfall"));

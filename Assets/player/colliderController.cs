@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class colliderController : MonoBehaviour
@@ -23,6 +24,7 @@ public class colliderController : MonoBehaviour
     // (선택) 같은 오브젝트 1회만 처리하고 싶으면 유지
     private readonly HashSet<int> hitIds = new HashSet<int>();
 
+    [SerializeField] private GameObject gameover;
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
@@ -35,7 +37,7 @@ public class colliderController : MonoBehaviour
             lifeChecker = GameObject.Find("lifeChecker")?.GetComponent<lifeChecker>();
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnCollisionEnter2D(Collision2D other) // 장애물 충돌
     {
         if (invincible) return;
 
@@ -46,18 +48,21 @@ public class colliderController : MonoBehaviour
         if (hitIds.Contains(id)) return;
         hitIds.Add(id);
 
-        // 데미지
-        if (lifeChecker.life > 1)
+        getDamage();
+    }
+    public void getDamage()
+    {
+        if (lifeChecker.life > 1) // 체력 깎이는 모든 루틴은 여기서 시작하기
         {
             lifeChecker.minusLife();
             StartCoroutine(InvincibleRoutine());
         }
         else
         {
+            gameover.GetComponent<gameOver>().GameOver();
             // game over
         }
     }
-
     private IEnumerator InvincibleRoutine()
     {
         invincible = true;
