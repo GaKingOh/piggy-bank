@@ -14,8 +14,8 @@ public class colliderController : MonoBehaviour
     [SerializeField] private string invincibleLayerName = "PlayerInvincible";
 
     [Header("Refs")]
-    [SerializeField] private lifeChecker lifeChecker; // 인스펙터에 드래그 추천
-
+    [SerializeField] private lifeChecker lifeChecker; // 생명 카운트 오브젝트
+    [SerializeField] private footChecker footChecker; // 발 바닥 확인 오브젝트
     private SpriteRenderer sr;
     private bool invincible;
     private int normalLayer;
@@ -23,6 +23,7 @@ public class colliderController : MonoBehaviour
 
     // (선택) 같은 오브젝트 1회만 처리하고 싶으면 유지
     private readonly HashSet<int> hitIds = new HashSet<int>();
+
 
     [SerializeField] private GameObject gameover;
     private void Awake()
@@ -48,7 +49,11 @@ public class colliderController : MonoBehaviour
         if (hitIds.Contains(id)) return;
         hitIds.Add(id);
 
-        getDamage();
+
+        if (!footChecker.FootAndObstacle())
+        {
+            getDamage();
+        }
     }
     public void getDamage()
     {

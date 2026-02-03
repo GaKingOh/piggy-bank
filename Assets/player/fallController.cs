@@ -6,9 +6,11 @@ public class fallController : MonoBehaviour
     [SerializeField] float FallSpeed = 0f;
     public Animator animator;
     Rigidbody2D rb;
+    GameObject playerAudio;
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
+        playerAudio = GameObject.Find("playerAudio");
     }
 
     // Update is called once per frame
@@ -18,7 +20,7 @@ public class fallController : MonoBehaviour
         {
             animator.SetBool("isjump", false);
             animator.SetBool("isfall", true);
-            Debug.Log(animator.GetBool("isfall"));
+            playerAudio.GetComponent<audioController>().Fart(); // 방귀 소리 출력
             rb.linearVelocity = new Vector2(0f, -FallSpeed);
         }
         else if(gameObject.GetComponent<runController>().isground)

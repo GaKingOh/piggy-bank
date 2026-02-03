@@ -5,6 +5,8 @@ public class audioController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [SerializeField] private AudioClip coin;
     [SerializeField] private AudioClip explosion;
+    [SerializeField] private AudioClip jump;
+    [SerializeField] private AudioClip fart;
     void Start()
     {
         
@@ -18,6 +20,14 @@ public class audioController : MonoBehaviour
     public void Explode() // 미사일 맞을 때 소리
     {
         gameObject.GetComponent<AudioSource>().PlayOneShot(explosion, 0.6f);
+    }
+    public void Jump() // 점프 소리
+    {
+        gameObject.GetComponent<AudioSource>().PlayOneShot(jump, 0.6f);
+    }
+    public void Fart()
+    {
+        gameObject.GetComponent<AudioSource>().PlayOneShot(fart, 0.6f);
     }
     void Update()
     {

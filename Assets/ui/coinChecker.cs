@@ -16,6 +16,10 @@ public class coinChecker : MonoBehaviour
     {
 
     }
+    public int GetCoin()
+    {
+        return total_coin;
+    }
     public void SetCoin()
     {
         this.total_coin++;
