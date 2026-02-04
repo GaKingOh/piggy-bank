@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class coinSponerController : MonoBehaviour
 {
-    public GameObject[] obstacle_prefab;
+    GameObject[] coin_prefab; // 스테이지마다 다른 코인을 받는 변수
+    float timerange = 6; // 생성 주기
+
     public GameObject parent;
     float timeLimit = 5;
     float time = 0;
@@ -15,14 +17,19 @@ public class coinSponerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (coin_prefab == null) return;
         if (Time.time - time > timeLimit)
         {
-            int idx = Random.Range(0, obstacle_prefab.Length);
+            int idx = Random.Range(0, coin_prefab.Length);
 
-            Instantiate(obstacle_prefab[idx], spawn, Quaternion.identity, parent.transform);
+            Instantiate(coin_prefab[idx], spawn, Quaternion.identity, parent.transform);
             time = Time.time;
-            timeLimit = Random.Range(2, 6);
+            timeLimit = Random.Range(2, timerange);
         }
+    }
+    public void SetCoinPrefab(GameObject[] coinPrefab, int timeRange = 5)
+    {
+        this.coin_prefab = coinPrefab;
+        this.timerange = timeRange;
     }
 }

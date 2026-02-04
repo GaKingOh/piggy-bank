@@ -5,11 +5,12 @@ public class roketSponer : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [SerializeField] private GameObject rocketPrefab;
-    [SerializeField] private GameObject player;
+    GameObject player;
     [SerializeField] private GameObject airBallon;
     float time = 0;
     void Start()
     {
+        player = GameObject.Find("player");
     }
 
     // Update is called once per frame
