@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class timeManager : MonoBehaviour
@@ -13,7 +14,9 @@ public class timeManager : MonoBehaviour
     public GameObject bossManager;
     public GameObject stageManger;
     public GameObject gameOverPanel;
+    public GameObject clearPanel;
     public GameObject musicPlayer;
+    public GameObject player;
     float time = 0;
     int boss_coin_limit = 50;
 
@@ -23,6 +26,7 @@ public class timeManager : MonoBehaviour
     {
         
     }
+    public bool ExistBoss() => bossexist;
     public void GameOver()
     {
         gameOverPanel.SetActive(true);
@@ -38,12 +42,19 @@ public class timeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(coinChecker.GetComponent<coinChecker>().GetCoin() == 100 && !clearPanel.activeSelf)
+        {
+            clearPanel.SetActive(true);
+            player.SetActive(false);
+            musicPlayer.GetComponent <musicPlayerController>().GameClear(); 
+        }
         if(coinChecker.GetComponent<coinChecker>().GetCoin() - stageCoin >= boss_coin_limit && !bossexist)
         {
             bossexist = true; // 보스 있는지 확인 후 없으면 생성
             GameObject.Find("musicPlayer").GetComponent<AudioSource>().pitch = 1.25f;
             foreach(GameObject tmp in boss)
             {
+                Debug.Log(tmp); 
                 Instantiate(tmp,bossManager.transform);
             }
         }
