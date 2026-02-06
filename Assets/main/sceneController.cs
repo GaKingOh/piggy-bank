@@ -21,4 +21,6 @@ public class sceneController : MonoBehaviour
     {
         SceneManager.LoadScene("loading");
     }
+    
+
 }

@@ -23,6 +23,7 @@ public class rocketController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        speed += Time.deltaTime;
         transform.position += dir * speed * Time.deltaTime;
     }
 
@@ -41,7 +42,7 @@ public class rocketController : MonoBehaviour
         {
             animator.SetBool("isexplosion", true);
             playerAudio.GetComponent<audioController>().Explode();
-            player.GetComponent<colliderController>().getDamage();
+            player.GetComponent<playerHpController>().getDamage();
             Instantiate(explosionPrefab,player.transform.position,Quaternion.identity,player.transform);
             Destroy(gameObject);
         }

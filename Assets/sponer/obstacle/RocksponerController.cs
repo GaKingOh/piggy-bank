@@ -19,7 +19,6 @@ public class RocksponerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(rock_prefab.Length);
         if (rock_prefab == null) return;
         if(Time.time-time>timeLimit)
         {

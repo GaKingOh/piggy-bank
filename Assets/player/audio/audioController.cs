@@ -7,9 +7,10 @@ public class audioController : MonoBehaviour
     [SerializeField] private AudioClip explosion;
     [SerializeField] private AudioClip jump;
     [SerializeField] private AudioClip fart;
+    [SerializeField] private AudioClip hit;
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -29,8 +30,12 @@ public class audioController : MonoBehaviour
     {
         gameObject.GetComponent<AudioSource>().PlayOneShot(fart, 0.6f);
     }
+    public void Hit()
+    {
+        gameObject.GetComponent<AudioSource>().PlayOneShot(hit, 0.6f);
+    }
     void Update()
     {
-        
+
     }
 }

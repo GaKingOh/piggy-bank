@@ -32,7 +32,7 @@ public class footChecker : MonoBehaviour
         {
             player.GetComponent<runController>().isground = true;
         }
-        if ((obstacle & (1 << collision.gameObject.layer)) != 0)
+        if ((obstacle & (1 << collision.gameObject.layer)) != 0 && collision.CompareTag("Ground"))
         {
             foot_obstacle = true;
         }

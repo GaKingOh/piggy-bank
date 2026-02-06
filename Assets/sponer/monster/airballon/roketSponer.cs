@@ -16,12 +16,11 @@ public class roketSponer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Time.time - time > 5)
+        if(Time.time - time > 3)
         {
             time = Time.time;
             if (canShoot())
             {
-
                 Instantiate(rocketPrefab,airBallon.transform.position,Quaternion.identity,gameObject.transform);
             }
         }

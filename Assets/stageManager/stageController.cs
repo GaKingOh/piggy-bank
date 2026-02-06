@@ -18,7 +18,12 @@ public class stageController : MonoBehaviour
     public GameObject[] stage2coinPrefabs;
     public GameObject[] stage2bossPrefabs;
 
-    public int now_stage = 1;
+    [Header("stage2")]
+    public GameObject[] stage3RockPrefabs;
+    public GameObject[] stage3coinPrefabs;
+    public GameObject[] stage3bossPrefabs;
+
+    [SerializeField] private int now_stage = 1;
 
     Dictionary<int, Action> stage_dic;
     public void SetEnvironment()
@@ -35,7 +40,8 @@ public class stageController : MonoBehaviour
     }
     private void Awake()
     {
-        stage_dic = new Dictionary<int, Action>();
+        stage_dic = new Dictionary<int, Action>(); 
+        // 함수 시그니처를 값으로 받는 map
         stage_dic[1] = Stage1;
         stage_dic[2] = Stage2;
 
@@ -73,9 +79,10 @@ public class stageController : MonoBehaviour
         obstacleSponer.GetComponent<RocksponerController>().SetRockPrefab(stage1RockPrefabs,rocktimerange); // 돌, 생성 주기
 
 
-        int coinlimit = 5;
-        float obstaclespeed = 2.5f;
-        timeManager.GetComponent<timeManager>().SetStageValue(stage1bossPrefabs[0],obstaclespeed,coinlimit); // 보스, 장애물 속도, 코인 먹어야하는 개수
+        int coinlimit = 25; // 보스가 나오기 위한 코인의 개수
+        float obstaclespeed = 2.5f; // 장애물 시작 속도
+        float speedPlus = 0.5f;
+        timeManager.GetComponent<timeManager>().SetStageValue(stage1bossPrefabs,obstaclespeed, speedPlus ,coinlimit); // 보스, 장애물 속도, 코인 먹어야하는 개수
     }
     void Stage2()
     {
@@ -85,8 +92,13 @@ public class stageController : MonoBehaviour
         obstacleSponer.GetComponent<RocksponerController>().SetRockPrefab(stage2RockPrefabs, rocktimerange); // 돌, 생성 주기
 
 
-        int coinlimit = 15;
-        float obstaclespeed = 3.0f;
-        timeManager.GetComponent<timeManager>().SetStageValue(stage1bossPrefabs[0], obstaclespeed, coinlimit); // 보스, 장애물 속도, 코인 먹어야하는 개수
+        int coinlimit = 25;
+        float obstaclespeed = 3.5f;
+        float speedPlus = 0.75f;
+        timeManager.GetComponent<timeManager>().SetStageValue(stage2bossPrefabs, obstaclespeed, speedPlus, coinlimit); // 보스, 장애물 속도, 코인 먹어야하는 개수
+    }
+    void Stage3()
+    {
+
     }
 }

@@ -1,0 +1,98 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+
+public class playerHpController : MonoBehaviour
+{
+    [Header("Hit Target")]
+    [SerializeField] private LayerMask targetLayer; // Obstacle 레이어만 체크해두기 추천
+
+    [Header("Invincible")]
+    [SerializeField] private float invincibleTime = 1f;
+    [SerializeField] private float blinkInterval = 0.1f;
+    [SerializeField] private string invincibleLayerName = "PlayerInvincible";
+
+    [Header("Refs")]
+    [SerializeField] private lifeChecker lifeChecker; // 생명 카운트 오브젝트
+    [SerializeField] private footChecker footChecker; // 발 바닥 확인 오브젝트
+    private SpriteRenderer sr;
+    private bool invincible;
+    private int normalLayer;
+    private int invLayer;
+    private PolygonCollider2D col;
+    bool die = false;
+    // (선택) 같은 오브젝트 1회만 처리하고 싶으면 유지
+    private readonly HashSet<int> hitIds = new HashSet<int>();
+
+
+    [SerializeField] private GameObject timeKeeper;
+    GameObject playerAudio; // 피격 소리
+    private void Awake()
+    {
+        playerAudio = GameObject.Find("playerAudio");
+        sr = GetComponent<SpriteRenderer>();
+        col = GetComponent<PolygonCollider2D>();
+
+        normalLayer = gameObject.layer;
+        invLayer = LayerMask.NameToLayer(invincibleLayerName);
+
+        // 혹시 인스펙터에 안 넣었으면 마지막 보험
+        if (!lifeChecker)
+            lifeChecker = GameObject.Find("lifeChecker")?.GetComponent<lifeChecker>();
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) // 장애물 충돌
+    {
+        if (invincible) return;
+
+        if (((1 << other.gameObject.layer) & targetLayer) == 0) return;
+
+        // (선택) 같은 장애물 1번만 데미지
+        int id = other.gameObject.GetInstanceID();
+        if (hitIds.Contains(id)) return;
+        hitIds.Add(id);
+
+
+        if (!footChecker.FootAndObstacle())
+        {
+            getDamage();
+        }
+    }
+    public void getDamage()
+    {
+        if (lifeChecker.life > 1) // 체력 깎이는 모든 루틴은 여기서 시작하기
+        {
+            lifeChecker.minusLife();
+            playerAudio.GetComponent<audioController>().Hit();
+            StartCoroutine(InvincibleRoutine());
+        }
+        else if(!die)
+        {
+            die = true;
+            timeKeeper.GetComponent<timeManager>().GameOver();
+            // game over
+        }
+    }
+    private IEnumerator InvincibleRoutine()
+    {
+        invincible = true;
+
+        // 🔥 충돌 무시 시작: 레이어 변경
+        gameObject.layer = invLayer;
+        float t = 0f;
+        col.isTrigger = true;
+        while (t < invincibleTime)
+        {
+            if (sr) sr.enabled = !sr.enabled;
+            yield return new WaitForSeconds(blinkInterval);
+            t += blinkInterval;
+        }
+        col.isTrigger = false;
+        // 원복
+        if (sr) sr.enabled = true;
+        gameObject.layer = normalLayer;
+
+        invincible = false;
+    }
+}
